@@ -1,0 +1,50 @@
+rules:
+  - id: transfer-from-in-loop
+    patterns:
+      - pattern-either:
+          - pattern: |
+              for (...) {
+                $OBJ.safeTransferFrom(...);
+              }
+          - pattern: |
+              while ($COND) {
+                ...
+                $OBJ.safeTransferFrom($FROM, $TO, $AMOUNT);
+                ...
+              }
+          - pattern: |
+              for (...) {
+                $OBJ.transfer(...);
+              }
+          - pattern: |
+              while ($COND) {
+                ...
+                $OBJ.transfer(...);
+                ...
+              }
+          - pattern: |
+              for (...) {
+                $ADDR.call{$VALUE:...}(...);
+              }
+          - pattern: |
+              while ($COND) {
+                ...
+                $ADDR.call{$VALUE:...}(...);
+                ...
+              }
+          - pattern: |
+              for (...) {
+                $ADDR.call{$VALUE:..., $GAS:...}($DATA);
+              }
+          - pattern: |
+              while ($COND) {
+                ...
+                $ADDR.call{$VALUE:..., $GAS:...}($DATA);
+                ...
+              }
+    message: "Calling transferFrom inside a loop may lead to high gas costs and potential reentrancy issues."
+    severity: WARNING
+    languages: [solidity]
+    metadata:
+      category: security
+      technology: ethereum

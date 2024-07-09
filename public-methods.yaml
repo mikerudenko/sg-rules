@@ -1,0 +1,131 @@
+rules:
+ -
+    id: public-methods
+    message: "Custom ERC20 implementation exposes _transfer() as public, potentially allowing unauthorized token transfers."
+    metadata:
+        category: security
+        technology:
+          - solidity
+        cwe: "CWE-284: Improper Access Control"
+    patterns:
+      - pattern-either:
+         - pattern: |
+            function _transfer(...) public { ... }
+         - pattern: |
+            function _transfer(...) external { ... }
+         - pattern: |
+            function _mint(...) public { ... }
+         - pattern: |
+            function _mint(...) external { ... }
+         - pattern: |
+            function _burn(...) public { ... }
+         - pattern: |
+            function _burn(...) external { ... }
+         - pattern: |
+            function _approve(...) public { ... }
+         - pattern: |
+            function _approve(...) external { ... }
+         - pattern: |
+            function _transferFrom(...) public { ... }
+         - pattern: |
+            function _transferFrom(...) external { ... }
+         - pattern: |
+            function _increaseAllowance(...) public { ... }
+         - pattern: |
+            function _increaseAllowance(...) external { ... }
+         - pattern: |
+            function _decreaseAllowance(...) public { ... }
+         - pattern: |
+            function _decreaseAllowance(...) external { ... }
+         - pattern: |
+            function pause(...) public { ... }
+         - pattern: |
+            function pause(...) external { ... }
+         - pattern: |
+            function unpause(...) public { ... }
+         - pattern: |
+            function unpause(...) external { ... }
+         - pattern: |
+            function transferOwnership(...) public { ... }
+         - pattern: |
+            function transferOwnership(...) external { ... }
+         - pattern: |
+            function renounceOwnership(...) public { ... }
+         - pattern: |
+            function renounceOwnership(...) external { ... }
+         - pattern: |
+            function setFee(...) public { ... }
+         - pattern: |
+            function setFee(...) external { ... }
+         - pattern: |
+            function _update(...) public { ... }
+         - pattern: |
+            function _update(...) external { ... }
+         - pattern: |
+            function _safeMint(...) public { ... }
+         - pattern: |
+            function _safeMint(...) external { ... }
+         - pattern: |
+            function _safeBurn(...) public { ... }
+         - pattern: |
+            function _safeBurn(...) external { ... }
+      - pattern-not: |
+         function _transfer(...) $M { ... }
+      - pattern-not: |
+         function _transfer(...) $M(...) { ... }
+      - pattern-not: |
+         function _burn(...) $M { ... }
+      - pattern-not: |
+         function _burn(...) $M(...) { ... }
+      - pattern-not: |
+         function _approve(...) $M { ... }
+      - pattern-not: |
+         function _approve(...) $M(...) { ... }
+      - pattern-not: |
+         function _transferFrom(...) $M { ... }
+      - pattern-not: |
+         function _transferFrom(...) $M(...) { ... }
+      - pattern-not: |
+         function _increaseAllowance(...) $M { ... }
+      - pattern-not: |
+         function _increaseAllowance(...) $M(...) { ... }
+      - pattern-not: |
+         function _decreaseAllowance(...) $M { ... }
+      - pattern-not: |
+         function _decreaseAllowance(...) $M(...) { ... }
+      - pattern-not: |
+         function pause(...) $M { ... }
+      - pattern-not: |
+         function pause(...) $M(...) { ... }
+      - pattern-not: |
+         function unpause(...) $M { ... }
+      - pattern-not: |
+         function unpause(...) $M(...) { ... }
+      - pattern-not: |
+         function transferOwnership(...) $M { ... }
+      - pattern-not: |
+         function transferOwnership(...) $M(...) { ... }
+      - pattern-not: |
+         function renounceOwnership(...) $M { ... }
+      - pattern-not: |
+         function renounceOwnership(...) $M(...) { ... }
+      - pattern-not: |
+         function setFee(...) $M { ... }
+      - pattern-not: |
+         function setFee(...) $M(...) { ... }
+      - pattern-not: |
+         function _update(...) $M { ... }
+      - pattern-not: |
+         function _update(...) $M(...) { ... }
+      - pattern-not: |
+         function _safeMint(...) $M { ... }
+      - pattern-not: |
+         function _safeMint(...) $M(...) { ... }
+      - pattern-not: |
+         function _safeBurn(...) $M { ... }
+      - pattern-not: |
+         function _safeBurn(...) $M(...) { ... }
+    languages: 
+    - solidity
+    severity: WARNING
+
