@@ -9,9 +9,9 @@ fi
 # Assign the arguments to variables
 contracts_dir="$1"
 rules_dirs=(
-    # "mike-security"
-    # "../semgrep-rules/rules/solidity"
-    # "../semgrep-smart-contracts/solidity/security"
+    "mike-security"
+    "../semgrep-rules/rules/solidity"
+    "../semgrep-smart-contracts/solidity/security"
     "sandbox"
 )
 
