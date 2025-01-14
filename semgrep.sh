@@ -6,8 +6,10 @@ if [ "$#" -ne 1 ]; then
     exit 1
 fi
 
-# Assign the first argument to the contracts_dir variable
+# Assign the arguments to variables
 contracts_dir="$1"
+rules_dir="../semgrep-rules/rules/solidity"
+# 
 results_dir="contract-results"
 
 # Ensure results directory exists
@@ -19,10 +21,11 @@ mkdir -p "$results_dir"
 # Export necessary variables for use in the subshell
 export contracts_dir
 export results_dir
+export rules_dir
 
 # Initialize counter
 counter=0
-batch_size=40
+batch_size=20
 files=()
 
 # Find all .sol files in the contracts directory and process each one in parallel batches
@@ -36,7 +39,7 @@ find "$contracts_dir" -type f -name "*.sol" | while read -r sol_file; do
       (
         output_file="$results_dir/${file#"$contracts_dir/"}.txt"
         mkdir -p "$(dirname "$output_file")"
-        semgrep --config=semgrep-smart-contracts/solidity/mike-security "$file" --output="$output_file"
+        semgrep --config="$rules_dir" "$file" --output="$output_file"
         if [[ ! -s "$output_file" ]]; then
           rm -f "$output_file"
         fi
@@ -53,7 +56,7 @@ if (( ${#files[@]} > 0 )); then
     (
       output_file="$results_dir/${file#"$contracts_dir/"}.txt"
       mkdir -p "$(dirname "$output_file")"
-      semgrep --config=semgrep-smart-contracts/solidity/mike-security "$file" --output="$output_file"
+      semgrep --config="$rules_dir" "$file" --output="$output_file"
       if [[ ! -s "$output_file" ]]; then
         rm -f "$output_file"
       fi
