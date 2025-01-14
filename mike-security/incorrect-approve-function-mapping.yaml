@@ -1,0 +1,22 @@
+rules:
+  - id: incorrect-approve-function-mapping
+    pattern-either:
+      - pattern: |
+          function $FUNC(...) $MODIFIERS {
+            ...
+            $ALLOWED[$SPENDER][msg.sender] = $VALUE;
+            ...
+          }
+      - pattern: |
+          function $FUNC(...) $MODIFIERS {
+            ...
+            $ALLOWED[$SPENDER][tx.origin] = $VALUE;
+            ...
+          }
+    message: "Potential error in approve function: The order of arguments in the allowance mapping is incorrect. It should be $ALLOWED[msg.sender][$SPENDER] = $VALUE;"
+    severity: ERROR
+    languages: [solidity]
+    metadata:
+      category: security
+      technology: solidity
+      description: "The approve function should set allowance for msg.sender to spend on behalf of the spender, not the other way around."

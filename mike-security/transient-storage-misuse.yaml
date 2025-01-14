@@ -1,0 +1,46 @@
+rules:
+  - id: transient-storage-misuse
+    pattern-either:
+      - pattern: |
+          function $FUNC(...) $MODIFIERS {
+            ...
+            assembly {
+              tstore($KEY, $VALUE)
+            }
+            ...
+          }
+          function $OTHER_FUNC(...) $OTHER_MODIFIERS {
+            ...
+            assembly {
+              $VAR := tload($KEY)
+            }
+            ...
+          }
+      - pattern: |
+          function $FUNC(...) $MODIFIERS {
+            ...
+            assembly {
+              tstore($KEY, $VALUE)
+            }
+            ...
+          }
+    pattern-not:
+      pattern: |
+        function $FUNC(...) $MODIFIERS {
+          ...
+          assembly {
+            tstore($KEY, $VALUE)
+          }
+          ...
+          assembly {
+            tstore($KEY, 0)
+          }
+          ...
+        }
+    message: "Potential misuse of transient storage detected. Transient storage is set in function '$FUNC' but not cleared at the end of the function. This can lead to vulnerabilities in contract composability."
+    severity: WARNING
+    languages: [solidity]
+    metadata:
+      category: security
+      technology: solidity
+      description: "Transient storage should be cleared at the end of each function to ensure proper contract composability. Failure to do so can lead to unexpected behavior when the contract is called multiple times in a single transaction."

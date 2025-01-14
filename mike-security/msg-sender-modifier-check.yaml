@@ -1,0 +1,294 @@
+rules:
+ -
+    id: access-check
+    message: "Custom function $F() is using msg.sender or _msgSender() to check access, but it is not using the correct access control modifier."
+    metadata:
+        category: security
+        technology:
+          - solidity
+        cwe: "CWE-284: Improper Access Control"
+    patterns:
+      - pattern-either:
+         - pattern: |
+            function $F(..., $TYPE $X, ...) $MODIFIERS { 
+                require(msg.sender == $X, ...);
+                ...
+             }
+         - pattern: |
+            function $F(..., $TYPE $X, ...) $MODIFIERS { 
+                require(_msgSender() == $X, ...);
+                ...
+             }
+         - pattern: |
+            function $F($TYPE $X, ...) $MODIFIERS { 
+                require(msg.sender == $X, ...);
+                ...
+             }
+         - pattern: |
+            function $F($TYPE $X, ...) $MODIFIERS { 
+                require(_msgSender() == $X, ...);
+                ...
+             }
+         - pattern: |
+            function $F(..., $TYPE $X) $MODIFIERS { 
+                require(msg.sender == $X, ...);
+                ...
+             }
+         - pattern: |
+            function $F(..., $TYPE $X) $MODIFIERS { 
+                require(_msgSender() == $X, ...);
+                ...
+             }
+
+
+         - pattern: |
+            function $F(..., $TYPE $X, ...) $MODIFIERS {
+                ...
+                require(msg.sender == $X, ...);
+             }
+         - pattern: |
+            function $F(..., $TYPE $X, ...) $MODIFIERS {
+                ...
+                require(_msgSender() == $X, ...);
+             }
+         - pattern: |
+            function $F($TYPE $X, ...) $MODIFIERS {
+                ...
+                require(msg.sender == $X, ...);
+             }
+         - pattern: |
+            function $F($TYPE $X, ...) $MODIFIERS {
+                ...
+                require(_msgSender() == $X, ...);
+             }
+         - pattern: |
+            function $F(..., $TYPE $X) $MODIFIERS {
+                ...
+                require(msg.sender == $X, ...);
+             }
+         - pattern: |
+            function $F(..., $TYPE $X) $MODIFIERS {
+                ...
+                require(_msgSender() == $X, ...);
+             }
+
+
+
+         # IF statements
+         - pattern: |
+            function $F(..., $TYPE $X, ...) $MODIFIERS { 
+                if(msg.sender == $X) { ... }
+                ...
+             }
+         - pattern: |
+            function $F(..., $TYPE $X, ...) $MODIFIERS { 
+                if(_msgSender() == $X) { ... }
+                ...
+             }
+         - pattern: |
+            function $F($TYPE $X, ...) $MODIFIERS { 
+                if(msg.sender == $X) { ... }
+                ...
+             }
+         - pattern: |
+            function $F($TYPE $X, ...) $MODIFIERS { 
+                if(_msgSender() == $X) { ... }
+                ...
+             }
+         - pattern: |
+            function $F($TYPE $X, ...) $MODIFIERS { 
+                if(msg.sender == $X) { ... }
+                ...
+             }
+         - pattern: |
+            function $F(..., $TYPE $X) $MODIFIERS { 
+                if(msg.sender == $X) { ... }
+                ...
+             }
+         - pattern: |
+            function $F(..., $TYPE $X) $MODIFIERS { 
+                if(_msgSender() == $X) { ... }
+                ...
+             }
+         - pattern: |
+            function $F(..., $TYPE $X) $MODIFIERS { 
+                if(msg.sender == $X) { ... }
+                ...
+             }
+         - pattern: |
+            function $F(..., $TYPE $X) $MODIFIERS { 
+                if(_msgSender() == $X) { ... }
+                ...
+             }
+         - pattern: |
+            function $F(..., $TYPE $X, ...) $MODIFIERS {
+                ...
+                if(msg.sender == $X) { ... }
+             }
+         - pattern: |
+            function $F(..., $TYPE $X, ...) $MODIFIERS {
+                ...
+                if(_msgSender() == $X) { ... }
+             }
+         - pattern: |
+            function $F(..., $TYPE $X, ...) $MODIFIERS {
+                ...
+                if(msg.sender == $X) { ... }
+             }
+         - pattern: |
+            function $F(..., $TYPE $X, ...) $MODIFIERS { 
+                ...
+                if(_msgSender() == $X) { ... }
+             }
+         - pattern: |
+            function $F($TYPE $X, ...) $MODIFIERS {
+                ...
+                if(msg.sender == $X) { ... }
+             }
+         - pattern: |
+            function $F($TYPE $X, ...) $MODIFIERS {
+                ...
+                if(_msgSender() == $X) { ... }
+             }
+         - pattern: |
+            function $F($TYPE $X, ...) $MODIFIERS {
+                ...
+                if(msg.sender == $X) { ... }
+             }
+         - pattern: |
+            function $F($TYPE $X, ...) $MODIFIERS {
+                ...
+                if(_msgSender() == $X) { ... }
+             }
+         - pattern: |
+            function $F(..., $TYPE $X) $MODIFIERS {
+                ...
+                if(msg.sender == $X) { ... }
+             }
+         - pattern: |
+            function $F(..., $TYPE $X) $MODIFIERS {
+                ...
+                if(_msgSender() == $X) { ... }
+             }
+         - pattern: |
+            function $F(..., $TYPE $X) $MODIFIERS {
+                ...
+                if(msg.sender == $X) { ... }
+             }
+         - pattern: |
+            function $F(..., $TYPE $X) $MODIFIERS {
+                ...
+                if(_msgSender() == $X) { ... }
+             }
+
+         # if not statements
+         - pattern: |
+            function $F(..., $TYPE $X, ...) $MODIFIERS { 
+                if(msg.sender != $X) { ... }
+                ...
+             }
+         - pattern: |
+            function $F(..., $TYPE $X, ...) $MODIFIERS { 
+                if(_msgSender() != $X) { ... }
+                ...
+             }
+         - pattern: |
+            function $F($TYPE $X, ...) $MODIFIERS { 
+                if(msg.sender != $X) { ... }
+                ...
+             }
+         - pattern: |
+            function $F($TYPE $X, ...) $MODIFIERS { 
+                if(_msgSender() != $X) { ... }
+                ...
+             }
+         - pattern: |
+            function $F($TYPE $X, ...) $MODIFIERS { 
+                if(msg.sender != $X) { ... }
+                ...
+             }
+         - pattern: |
+            function $F(..., $TYPE $X) $MODIFIERS { 
+                if(msg.sender != $X) { ... }
+                ...
+             }
+         - pattern: |
+            function $F(..., $TYPE $X) $MODIFIERS { 
+                if(_msgSender() != $X) { ... }
+                ...
+             }
+         - pattern: |
+            function $F(..., $TYPE $X) $MODIFIERS { 
+                if(msg.sender != $X) { ... }
+                ...
+             }
+         - pattern: |
+            function $F(..., $TYPE $X) $MODIFIERS { 
+                if(_msgSender() != $X) { ... }
+                ...
+             }
+         - pattern: |
+            function $F(..., $TYPE $X, ...) $MODIFIERS {
+                ...
+                if(msg.sender != $X) { ... }
+             }
+         - pattern: |
+            function $F(..., $TYPE $X, ...) $MODIFIERS {
+                ...
+                if(_msgSender() != $X) { ... }
+             }
+         - pattern: |
+            function $F(..., $TYPE $X, ...) $MODIFIERS {
+                ...
+                if(msg.sender != $X) { ... }
+             }
+         - pattern: |
+            function $F(..., $TYPE $X, ...) $MODIFIERS { 
+                ...
+                if(_msgSender() != $X) { ... }
+             }
+         - pattern: |
+            function $F($TYPE $X, ...) $MODIFIERS {
+                ...
+                if(msg.sender != $X) { ... }
+             }
+         - pattern: |
+            function $F($TYPE $X, ...) $MODIFIERS {
+                ...
+                if(_msgSender() != $X) { ... }
+             }
+         - pattern: |
+            function $F($TYPE $X, ...) $MODIFIERS {
+                ...
+                if(msg.sender != $X) { ... }
+             }
+         - pattern: |
+            function $F($TYPE $X, ...) $MODIFIERS {
+                ...
+                if(_msgSender() != $X) { ... }
+             }
+         - pattern: |
+            function $F(..., $TYPE $X) $MODIFIERS {
+                ...
+                if(msg.sender != $X) { ... }
+             }
+         - pattern: |
+            function $F(..., $TYPE $X) $MODIFIERS {
+                ...
+                if(_msgSender() != $X) { ... }
+             }
+         - pattern: |
+            function $F(..., $TYPE $X) $MODIFIERS {
+                ...
+                if(msg.sender != $X) { ... }
+             }
+         - pattern: |
+            function $F(..., $TYPE $X) $MODIFIERS {
+                ...
+                if(_msgSender() != $X) { ... }
+             }
+
+    languages: 
+    - solidity
+    severity: WARNING
+

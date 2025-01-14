@@ -1,0 +1,32 @@
+rules:
+  - id: risky-memory-reference-manipulation
+    patterns:
+      - pattern-either:
+          - pattern: |
+              $TYPE memory $VAR1 = $SOURCE;
+              $TYPE memory $VAR2 = $VAR1;
+              ...
+              $VAR2.$FIELD = $VALUE;
+              ...
+              $DESTINATION = $VAR1;
+          - pattern: |
+              $TYPE memory $VAR1 = $SOURCE;
+              $TYPE memory $VAR2 = $VAR1;
+              ...
+              $VAR2.$FIELD += $VALUE;
+              ...
+              $DESTINATION = $VAR1;
+          - pattern: |
+              $TYPE memory $VAR1 = $SOURCE;
+              $TYPE memory $VAR2 = $VAR1;
+              ...
+              $VAR2 = $FUNCTION($VAR2);
+              ...
+              $DESTINATION = $VAR1;
+    message: "Potential risky memory manipulation detected. Variables '$VAR1' and '$VAR2' reference the same memory location. Changes to '$VAR2' affect '$VAR1', which may lead to unexpected results when assigning to '$DESTINATION'."
+    severity: WARNING
+    languages: [solidity]
+    metadata:
+      category: security
+      technology: solidity
+      description: "When multiple variables reference the same memory location, modifications to one affect all references. This can lead to unintended state changes or logic errors if not handled carefully."
